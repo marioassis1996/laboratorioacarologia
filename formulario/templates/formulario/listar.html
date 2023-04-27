@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- esta parte é substituída no arquivo base -->
+{% block titulo %}
+    <title>Lista da Coleção</title>
+{% endblock %}
+
+{% block conteudo %}
+
+    <p>
+        <form method="POST">
+            <a href="{% url 'baixa' %}" download class="btn btn-outline-default">Download</a>
+        </form>
+        <a class="btn btn-outline-primary" href="{% url 'cadastrar_colecao' %}">Adicionar Novo</a>
+    </p>
+    <form class="form-search">
+      <div class="input-append">
+        <input autocomplete="off" type="text" class="span2 search-query" value="" placeholder="Pesquisar">
+        <button type="submit" class="btn btn-success mx-2">Pesquisar</button>
+      </div:>
+    </form>
+    <table class="table table-striped table-hover">
+        <caption></caption>
+        
+            <tr>
+                <th id="1">Tombo</th>
+                <th id="2">Gênero</th>
+                <th id="3">Família</th>
+                <th id="3">OccurenceID</th>
+                {% if request.user.is_authenticated %}
+                <th id="4">Opções</th>
+                {% endif %}
+            </tr>
+        
+        {% for colecao in object_list %}
+        
+            <p>
+                <tr>
+                    <td>{{ colecao.catalogNumber }}</td>
+                    <td>{{ colecao.genus }}</td>
+                    <td>{{ colecao.family }}</td>
+                    <td>{{ colecao.occurrenceID }}</td>
+                    {% if request.user.is_authenticated %}
+                    <td>
+                        <form action="{% url 'editar_colecao' colecao.pk %}" method="get">
+                          <button type="submit" class="btn btn-warning">Editar</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+            </p>
+        
+        {% empty %}
+        <tbody>
+            <tr>
+                <td colspan="3">Sem registro</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+    <!-- Copiado de resposta no stackoverflow https://stackoverflow.com/questions/30864011/display-only-some-of-the-page-numbers-by-django-pagination-->
+
+    <div class="d-flex justify-content-center">
+    <nav aria-label="Page navigation">   <ul class="pagination">
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Primeira</span>
+            </a>
+          </li>
+        {% endif %}
+
+        {% for n in page_obj.paginator.page_range %}
+          {% if page_obj.number == n %}
+            <li class="page-item active">
+              <span class="page-link">{{ n }}<span class="sr-only"> (atual)</span></span>
+            </li>
+          {% elif n > page_obj.number|add:'-3' and n < page_obj.number|add:'3' %}
+            <li class="page-item"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.paginator.num_pages > 4 %}
+          <li class="page-item"><a class="page-link">...</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a></li>
+        {% elif page_obj.paginator.num_pages < 4 %}
+        {% else %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a></li>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Última</span>
+            </a>
+          </li>
+          {% endif %}   </ul> </nav>
+        </div>
+
+{% endblock %}

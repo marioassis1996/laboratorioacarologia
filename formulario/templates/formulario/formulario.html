@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- esta parte é substituída no arquivo base -->
+{% block titulo %}
+    <title>Novo exemplar</title>
+{% endblock %}
+
+{% block conteudo %}
+    <p><h1>{{ titulo }}</h1></p>
+    {% if request.user.is_authenticated %}
+        <p>{{ mensagem }}</p>
+    {% else %}
+        <p>{{ naologado }} <a href="{% url 'login' %}">Clique aqui.</a></p>
+    {% endif %}
+
+    {% if avancado %}
+        <p>{{ avancado }} <a href="{% url 'cadastrar_avancado_colecao' %}">Clique Aqui.</a></p>
+    {% endif %}
+
+    <a href="{% url 'cadastrar_csv_colecao' %}">Formulário CSV</a>
+
+    <form method="POST" class="" enctype="multipart/form-data">
+        
+        {% csrf_token %}
+
+        {% for field in form %}
+            <p class="form-group">
+                {% if field.errors %}
+                    <div class="alert alert-danger">{{ field.errors.as_text }}</div>
+                {% endif %}
+                <label class="fw-bold col-lg-2 col-sm-2 col-2 col-md-2 col-xl-2 col-form-label" for="{{ field.id_for_label }}">
+                    {{ field.label }}:
+                </label>
+                {{ field }}
+            </p>
+        {% endfor %}
+
+        {% if request.user.is_authenticated %}
+
+            <button type="submit" class="btn btn-outline-primary">Confirmar</button>
+
+        {% endif %}
+        <a href="/listar/colecao/">
+            <button type="button" class="btn btn-outline-danger">Cancelar</button>
+        </a>
+    </form>
+
+{% endblock %}

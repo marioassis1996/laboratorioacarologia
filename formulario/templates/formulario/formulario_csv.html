@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- esta parte é substituída no arquivo base -->
+{% block titulo %}
+    <title>Novo exemplar</title>
+{% endblock %}
+
+{% block conteudo %}
+    {% if request.user.is_authenticated %}
+        {{ mensagem }}
+    {% else %}
+        {{ naologado }} <a href="{% url 'login' %}">Clique aqui</a>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        
+        {% csrf_token %}
+
+        <input type="file" name="sent_file" accept=".csv"/>
+        
+        {% if request.user.is_authenticated %}
+
+            <button type="submit" class="btn btn-outline-primary">Confirmar</button>
+
+        {% endif %}
+        <a href="/listar/colecao/">
+            <button type="button" class="btn btn-outline-danger">Cancelar</button>
+        </a>
+    </form>
+
+{% endblock %}

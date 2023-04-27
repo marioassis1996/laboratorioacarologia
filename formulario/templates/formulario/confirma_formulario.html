@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- esta parte é substituída no arquivo base -->
+{% block titulo %}
+    <title>Novo exemplar</title>
+{% endblock %}
+
+{% block conteudo %}
+
+    <tr>
+        <th id="1">Tombo</th>
+        <th id="2">Gênero</th>
+        <th id="3">Opções</th>
+    
+    {% for colecao in object_list %}
+    <p>
+        <p><input type="checkbox" readonly>{{ colecao.decimalLatitude }}</p>
+        <p><input type="checkbox" readonly>{{ colecao.catalogNumber }}</p>
+        <p><input type="checkbox" readonly>{{ colecao.genus }}</p>
+        <p>
+            <a href="{% url 'editar_colecao' colecao.pk %}" title="Editar">Editar</a>
+        </p>
+    </p>
+    {% empty %}
+    
+        <td colspan="3">Sem registro</td>
+    
+    {% endfor %}
+    </tr>
+    <p>
+        <a href="{% url 'cadastrar_colecao' %}">Adicionar Novo</a>
+    </p>
+
+{% endblock %}

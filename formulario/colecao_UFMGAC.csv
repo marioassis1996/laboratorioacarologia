@@ -1,0 +1,14 @@
+id,institutionCode,language,family,genus,modified,latitude,longitude,specie,catalogNumber,kingdom
+1,UFMG,pt,asdf,Acari,2022-09-14,9.0,-60.0,1,1,Animalia
+2,UFMG,pt,b,Acariforme,2022-07-31,-50.0,70.0,2,2,
+3,UFMG,pt,c,Alar,2022-07-31,50.0,50.0,3,3,
+4,UFMG,pt,a,ac,2022-07-31,1.0,16.0,4,4,
+8,UFMG,pt,a,asdf,2022-07-31,5.0,50.0,8,8,
+9,UFMG,pt,a,aaa,2022-07-30,23.0,132.0,9,9,
+10,UFMG,pt,a,Acari,2022-07-30,10.0,100.0,10,10,
+13,UFMG,pt,f,asd,2022-07-30,5.0,5.0,5,5,
+14,UFMG,pt,f,asfd,2022-07-30,1.0,1.0,6,6,
+15,UFMG,pt,f,asdf,2022-07-30,1.0,1.0,7,7,
+16,UFMG,pt,a,Acari,2022-07-31,1.0,1.0,01,11,
+17,UFMG,pt,d,A,2022-07-31,12.0,20.0,f,12,
+18,UFMG,pt,f,asdf,2022-09-12,1.0,1.0,asdfasdf,13,Animalia
