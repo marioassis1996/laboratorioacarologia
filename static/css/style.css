@@ -1,0 +1,48 @@
+html{
+    background-color: rgb(236, 236, 236);
+    background-size: 30px 28px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.imagem_de_fundo{
+    width: 100%;
+}
+
+.menusuperior{
+    display: flex;
+    justify-content: space-around;
+    top: auto;
+    
+}
+
+.button{
+    /* mudar a cor de fundo do botão */
+    background-color: blue;
+    /* mudar a cor do botão */
+    color: white;
+    border: gray;
+    text-decoration: none;
+}
+
+.info{
+    display: inline-block;
+    margin: 0%;
+    background-color: white;
+}
+
+.imagem_equipe{
+    margin: auto;
+    display: block;
+
+    width: 50%;
+
+}
+
+.rodape{
+    background-color: rgb(12, 32, 164);
+}
+
+/*.tabela{
+    
+}*/
