@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- esta parte é substituída no arquivo base -->
+{% block titulo %}
+    <title>Factsheets</title>
+{% endblock %}
+
+{% block conteudo %}
+
+    <form method="POST">
+        
+        {% csrf_token %}
+
+        {{ form.as_p }}
+        
+        {% if request.user.is_authenticated %}
+
+        <button type="submit" class="btn btn-outline-primary">Adicionar</button>
+
+        {% endif %}
+        <a href="/factsheets/">
+            <button type="button" class="btn btn-outline-danger">Cancelar</button>
+        </a>
+    </form>
+    <!-- Altera o type dos inputs que recebem date no ínicio para date -->
+    <script>
+        $(document).ready(function(){
+            $("input[name*-date]").attr("type","date");
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- esta parte é substituída no arquivo base -->
+{% block titulo %}
+    {% for value in familia %}
+        <title>Factsheets {{ value.familia }}</title>
+    {% endfor %}
+{% endblock %}
+
+{% block conteudo %}
+
+{% for value in familia %}
+    <form action="{% url 'editar_factsheet' value.pk %}" method="get">
+        <button type="submit" class="btn btn-warning">Editar</button>
+    </form>
+
+    <div class="titulo">
+        {{ value.familia }} ({{ value.autor }},{{ value.ano }}) <!-- mudar o nome da familia para o que for clicado -->
+    </div>
+
+    <div class="caracteristicas">
+        Características Gerais:
+        <p>
+            {{ value.caracteristicas_gerais }}
+        </p>
+    </div>
+
+    <div class="diagnoses">
+        Diagnoses:
+        <p>
+            {{ value.diagnoses }}
+        </p>
+    </div>
+{% for image in imagem %}
+
+    {% if image.imagens %}
+
+        <div class="imagem">
+            <p>
+                Imagens:
+                    <img src="{{ image.imagens.url }}" alt="{{ image.legenda }}">
+                    legenda: {{ image.legenda }}
+            </p>
+        </div>
+
+    {% endif %}
+
+{% endfor %}
+
+    <div class="mapa">
+        <!-- chamar a funcao mapa e ela me retorna o mapa com os pings -->
+        mapa
+        {{ map | safe}}
+    </div>
+
+    <div class="genero_especie">
+        Táxons depositados no UFMG AC e sua origem
+        {% for value in genero %}
+            <p>
+                <ul>
+                    <li>
+                        {{ value.genus }}
+                        <!-- genero na lista de genero for igual ao genero da família retorna o nome da especie -->
+                        {% for nome in especie %}
+                            {% if nome.genus == value.genus%}
+                                <p>{{ nome.genus }} {{ nome.specie }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </li>
+                </ul>
+            </p>
+            {% empty %}
+            <p>
+                <tr>
+                    <td colspan="1">Sem registro</td>
+                </tr>
+            </p>
+        {% endfor %}
+    </div>
+
+    <div class="zonacao">
+        grafico com a zonacao
+    </div>
+
+    <div class="dados_geneticos">
+        Dados Moleculares:
+        <p>
+            {{ value.dados_geneticos }}
+        </p>
+    </div>
+
+    <div class="referencias">
+        Referências:
+        <p>
+            {{ value.referencia }}
+        </p>
+    </div>
+
+    {% empty %}
+        A família {{ family }} não possui factsheets.
+        <a href="/cadastrar/factsheets/">
+            <button type="button" class="btn btn-outline-primary">Cadastrar</button>
+        </a>
+{% endfor %}
+
+{% endblock %}

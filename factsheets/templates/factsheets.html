@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- esta parte é substituída no arquivo base -->
+{% block titulo %}
+    <title>Factsheets</title>
+{% endblock %}
+
+{% block conteudo %}
+    {% for value in familia %}
+        <form>
+            <a href="{% url 'factsheetsfamilia' family=value.family %}">{{ value.family }}</a>
+        </form>
+    {% endfor %}
+
+{% endblock %}

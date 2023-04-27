@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- esta parte é substituída no arquivo base -->
+{% block titulo %}
+    <title>Factsheets</title>
+{% endblock %}
+
+{% block conteudo %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% for field in form %} 
+            <p class="form-group">
+                {% if field.errors %}
+                    <div class="alert alert-danger">{{ field.errors.as_text }}</div>
+                {% endif %}
+                <label class="fw-bold col-lg-2 col-sm-2 col-2 col-md-2 col-xl-2 col-form-label" for="{{ field.id_for_label }}">
+                    {{ field.label }}:
+                </label>
+                {{ field }}
+            </p>
+        {% endfor %}
+
+        Excluir:
+        {% for image in imagem %}
+
+            {% if image.imagens %}
+
+                <div class="imagem">
+                    <p>
+                        Imagens:
+                            <img src="{{ image.imagens.url }}" alt="{{ image.legenda }}">
+                            legenda: {{ image.legenda }}
+                    </p>
+                </div>
+
+            {% endif %}
+
+        {% endfor %}
+        
+        <hr>
+        
+        Adicionar Imagens
+        
+        <div id="image-fields">
+            <div class="image-field">
+                <label for="id_imagens-0-image">Imagem:</label>
+                <input type="file" name="imagens-0-image" id="id_imagens-0-image">
+                    <br>
+                <label for="id_imagens-0-legenda">Legenda:</label>
+                <textarea name="imagens-0-legenda" id="id_imagens-0-legenda"></textarea>
+            </div>
+        </div>
+        
+        <button type="button" id="add-image-field" class="btn btn-outline-secondary">+ Adicionar Imagem</button>
+        
+        <br>
+        <br>
+        
+        {% if request.user.is_authenticated %}
+            <button type="submit" class="btn btn-outline-primary">Adicionar</button>
+        {% endif %}
+
+        <a href="{% url 'factsheets' %}">
+            <button type="button" class="btn btn-outline-danger">Cancelar</button>
+        </a>
+    </form>
+
+    <script>
+    var imageIndex = 0;
+
+    function addImageField() {
+        var imageFields = document.getElementById("image-fields");
+        var imageField = document.createElement("div");
+        imageField.className = "image-field";
+        imageField.innerHTML = '<label for="id_imagens-' + imageIndex + '-image">Imagem:</label>' +
+        '<input type="file" name="imagens-' + imageIndex + '-image" id="id_imagens-' + imageIndex + '-image">' +
+        '<br>' +
+        '<label for="id_imagens-' + imageIndex + '-legenda">Legenda:</label>' +
+        '<textarea name="imagens-' + imageIndex + '-legenda" id="id_imagens-' + imageIndex + '-legenda"></textarea>';
+        imageFields.appendChild(imageField);
+        imageIndex++;
+    }
+    // Counter to keep track of the number of URL input fields
+    let urlCount = 0;
+
+    // Function to add a new URL input field
+    function addUrlField() {
+        urlCount++;
+        const urlContainer = document.getElementById("url-container");
+
+        // Create a new URL input field
+        const newUrlInput = document.createElement("input");
+        newUrlInput.type = "text";
+        newUrlInput.name = "dados_geneticos[]";
+        newUrlInput.id = `dados_geneticos-${urlCount}`;
+
+        // Append the new URL input field to the URL container
+        urlContainer.appendChild(newUrlInput);
+    }
+
+    // Add event listener to the "+" button to call the addUrlField() function
+    document.getElementById("add-url-button").addEventListener("click", addUrlField);
+    document.getElementById("add-image-field").addEventListener("click", addImageField);
+    </script>
+{% endblock %}
